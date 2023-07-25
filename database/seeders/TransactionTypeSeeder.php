@@ -6,47 +6,47 @@ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
-class PaymentMethodSeeder extends Seeder
+
+class TransactionTypeSeeder extends Seeder
 {
     /**
      * Run the database seeds.
      */
     public function run(): void
     {
-        DB::table('payment_methods')->insert([
+        DB::table('transaction_types')->insert([
             [
-                'name' => 'Bank BWA',
-                'code' => 'bwa',
-                'status' => 'active',
+                'name' => 'Transfer',
+                'code' => 'transfer',
+                'action' => 'dr',
                 'created_at' => now(),
                 'updated_at' => now(),
 
             ],
             [
-                'name' => 'Bank BNI',
-                'code' => 'bni_va',
-                'status' => 'active',
+                'name' => 'Internet',
+                'code' => 'internet',
+                'action' => 'dr',
                 'created_at' => now(),
                 'updated_at' => now(),
 
             ],
             [
-                'name' => 'Bank BCA',
-                'code' => 'bca_va',
-                'status' => 'active',
+                'name' => 'Top Up',
+                'code' => 'top_up',
+                'action' => 'cr',
                 'created_at' => now(),
                 'updated_at' => now(),
 
             ],
             [
-                'name' => 'Bank BRI',
-                'code' => 'bri_va',
-                'status' => 'active',
+                'name' => 'Receive',
+                'code' => 'receive',
+                'action' => 'cr',
                 'created_at' => now(),
                 'updated_at' => now(),
 
             ]
-
         ]);
     }
 }

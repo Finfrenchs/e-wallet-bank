@@ -6,42 +6,35 @@ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
-class PaymentMethodSeeder extends Seeder
+
+class OperatorCardSeeder extends Seeder
 {
     /**
      * Run the database seeds.
      */
     public function run(): void
     {
-        DB::table('payment_methods')->insert([
+        DB::table('operator_cards')->insert([
             [
-                'name' => 'Bank BWA',
-                'code' => 'bwa',
+                'name' => 'Telkomsel',
                 'status' => 'active',
+                'thumbnail' => 'telkomsel.png',
                 'created_at' => now(),
                 'updated_at' => now(),
 
             ],
             [
-                'name' => 'Bank BNI',
-                'code' => 'bni_va',
+                'name' => 'Indosat',
                 'status' => 'active',
+                'thumbnail' => 'indosat.png',
                 'created_at' => now(),
                 'updated_at' => now(),
 
             ],
             [
-                'name' => 'Bank BCA',
-                'code' => 'bca_va',
+                'name' => 'Singtel',
                 'status' => 'active',
-                'created_at' => now(),
-                'updated_at' => now(),
-
-            ],
-            [
-                'name' => 'Bank BRI',
-                'code' => 'bri_va',
-                'status' => 'active',
+                'thumbnail' => 'singtel.png',
                 'created_at' => now(),
                 'updated_at' => now(),
 
