@@ -11,6 +11,7 @@ use Melihovv\Base64ImageDecoder\Base64ImageDecoder;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
+use Tymon\JWTAuth\Facades\JWTAuth;
 
 
 class AuthController extends Controller
@@ -76,6 +77,41 @@ class AuthController extends Controller
             DB::rollBack(); //rollback transaction (if error occurs and cancel all process in transaction)
             return response()->json(['message' => $th->getMessage()], 500); //getMessage() method is for get error message from $th
         }
+    }
+
+    //login
+    public function login(Request $request)
+    {
+        $credentials = $request->only('email', 'password');
+
+        $validator = Validator::make($credentials, [
+            'email' => 'required|email',
+            'password' => 'required|string|min:6',
+        ]);
+
+        //cek validator error
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->messages()], 400);
+        }
+
+        try {
+            $token = JWTAuth::attempt($credentials);
+            //attempt to login
+            if (!$token) {
+                return response()->json(['message' => 'Login credentials are invalid'], 401);
+            }
+
+            $userResponse = getUser($request->email);
+            $userResponse->token = $token;
+            $userResponse->token_expires_in = auth('api')->factory()->getTTL() * 60; //in seconds
+            $userResponse->token_type = 'bearer';
+
+            return response()->json($userResponse);
+
+        } catch (\Tymon\JWTAuth\Exceptions\JWTException $e) {
+            return response()->json(['message' => $e->getMessage()], 500);
+        }
+
     }
 
     //generate card number
