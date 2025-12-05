@@ -19,8 +19,6 @@ use App\Http\Controllers\Api\AuthController;
 Route::post('register', [AuthController::class, 'register']);
 Route::post('login', [AuthController::class, 'login']);
 
-//route for test middleware jwt
-Route::middleware('jwt.verify')->get
-('test', function(Request $request) {
-    return response()->json(['message' => 'You are authorized to access this route', 'user' => $request->user()], 200);
+Route::group(['middleware' => ['jwt.verify']], function($router) {
+    Route::post('top_ups', [\App\Http\Controllers\Api\TopUpController::class, 'store']);
 });

@@ -4,7 +4,9 @@
       "Bash(php:*)",
       "Bash(composer update:*)",
       "Bash(timeout 5 bash:*)",
-      "Bash(composer show:*)"
+      "Bash(composer show:*)",
+      "Bash(composer dump-autoload:*)",
+      "Bash(timeout 5 php artisan:*)"
     ],
     "deny": [],
     "ask": []

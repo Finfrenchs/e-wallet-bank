@@ -19,6 +19,14 @@ class JwtMiddleware
     {
         try {
             $user = JWTAuth::parseToken()->authenticate();
+
+            if (!$user) {
+                return response()->json(['message' => 'User not found'], 401);
+            }
+
+            // Set authenticated user to Laravel auth system
+            auth()->setUser($user);
+
         } catch (Exception $e) {
             if ($e instanceof \Tymon\JWTAuth\Exceptions\TokenInvalidException){
                 return response()->json(['message' => 'Token is Invalid'], 401);
