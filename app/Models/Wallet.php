@@ -12,7 +12,7 @@ class Wallet extends Model
     protected $table = 'wallets';
 
     protected $fillable = [
-        'belance',
+        'balance',
         'pin',
         'user_id',
         'card_number'
