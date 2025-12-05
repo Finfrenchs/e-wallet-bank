@@ -72,6 +72,13 @@ class AuthController extends Controller
             ]);
 
             DB::commit(); //commit transaction
+            $token = JWTAuth::attempt(['email' => $request->email, 'password' => $request->password]); //generate token after register
+            $userResponse = getUser($request->email);
+            $userResponse->token = $token;
+            $userResponse->token_expires_in = auth('api')->factory()->getTTL() * 60; //in seconds
+            $userResponse->token_type = 'bearer';
+
+            return response()->json($userResponse);
 
         } catch (\Throwable $th) {
             DB::rollBack(); //rollback transaction (if error occurs and cancel all process in transaction)
