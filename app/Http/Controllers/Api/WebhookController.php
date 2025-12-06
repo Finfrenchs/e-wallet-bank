@@ -62,7 +62,7 @@ class WebhookController extends Controller
             DB::commit();
             return response()->json(['message' => 'Transaction updated'], 200);
 
-        } catch (\Exception $e) {
+        } catch (\Throwable $th) {
             DB::rollBack();
             return response()->json(['message' => $th->getMessage()], 500);
         }
