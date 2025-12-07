@@ -29,4 +29,5 @@ Route::group(['middleware' => ['jwt.verify']], function($router) {
     Route::post('transfers', [App\Http\Controllers\Api\TransferController::class, 'store']);
     Route::post('data_plans', [App\Http\Controllers\Api\DataPlanController::class, 'store']);
     Route::get('operator_cards', [App\Http\Controllers\Api\OperatorController::class, 'index']);
+    Route::get('payment_methods', [App\Http\Controllers\Api\PaymentMethodController::class, 'index']);
 });
