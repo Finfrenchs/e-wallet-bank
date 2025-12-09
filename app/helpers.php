@@ -1,6 +1,10 @@
 <?php
 use App\Models\User;
 use App\Models\Wallet;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
+// use App\Utils\Base64ImageDecoder;
+use Melihovv\Base64ImageDecoder\Base64ImageDecoder;
 
 if (!function_exists('getUser')) {
     function getUser($param) {
@@ -34,5 +38,19 @@ if (!function_exists('pinChecker')) {
         }
 
         return false;
+    }
+}
+
+if (!function_exists('uploadBase64Image')) {
+
+    function uploadBase64Image($base64Image) {
+        $decoder = new Base64ImageDecoder($base64Image, $allowedFormats = ['jpeg', 'png', 'jpg']);
+
+        $decodedContent = $decoder->getDecodedContent();
+        $format = $decoder->getFormat();
+        $image = Str::random(10).'.'.$format; //qwertyui12.jpg
+        Storage::disk('public')->put($image, $decodedContent);
+
+        return $image;
     }
 }

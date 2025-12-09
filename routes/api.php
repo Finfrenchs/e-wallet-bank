@@ -20,6 +20,7 @@ use App\Http\Controllers\Api\TopUpController;
 
 Route::post('register', [AuthController::class, 'register']);
 Route::post('login', [AuthController::class, 'login']);
+Route::post('is-email-exist', [App\Http\Controllers\Api\UserController::class, 'isEmailExist']);
 
 //webhook route
 Route::post('webhooks', [WebhookController::class, 'update']);
@@ -32,4 +33,7 @@ Route::group(['middleware' => ['jwt.verify']], function($router) {
     Route::get('payment_methods', [App\Http\Controllers\Api\PaymentMethodController::class, 'index']);
     Route::get('transfer_histories', [App\Http\Controllers\Api\TransferHistoryController::class, 'index']);
     Route::get('transactions', [App\Http\Controllers\Api\TransactionController::class, 'index']);
+    Route::get('users', [App\Http\Controllers\Api\UserController::class, 'show']);
+    Route::put('users', [App\Http\Controllers\Api\UserController::class, 'update']);
+    Route::get('users/{username}', [App\Http\Controllers\Api\UserController::class, 'getByUsername']);
 });
