@@ -18,6 +18,7 @@ class DatabaseSeeder extends Seeder
             OperatorCardSeeder::class,
             DataPlanSeeder::class,
             AdminUserSeeder::class,
+            TipSeeder::class,
         ]);
     }
 }

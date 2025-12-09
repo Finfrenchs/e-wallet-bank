@@ -151,4 +151,11 @@ class AuthController extends Controller
 
         return $image;
     }
+
+    //logout
+    public function logout()
+    {
+        auth()->logout();
+        return response()->json(['message' => 'Successfully logged out']);
+    }
 }

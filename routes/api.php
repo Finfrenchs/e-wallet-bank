@@ -26,6 +26,7 @@ Route::post('is-email-exist', [App\Http\Controllers\Api\UserController::class, '
 Route::post('webhooks', [WebhookController::class, 'update']);
 
 Route::group(['middleware' => ['jwt.verify']], function($router) {
+    Route::post('logout', [AuthController::class, 'logout']);
     Route::post('top_ups', [TopUpController::class, 'store']);
     Route::post('transfers', [App\Http\Controllers\Api\TransferController::class, 'store']);
     Route::post('data_plans', [App\Http\Controllers\Api\DataPlanController::class, 'store']);
@@ -36,4 +37,7 @@ Route::group(['middleware' => ['jwt.verify']], function($router) {
     Route::get('users', [App\Http\Controllers\Api\UserController::class, 'show']);
     Route::put('users', [App\Http\Controllers\Api\UserController::class, 'update']);
     Route::get('users/{username}', [App\Http\Controllers\Api\UserController::class, 'getByUsername']);
+    Route::get('wallets', [App\Http\Controllers\Api\WalletController::class, 'show']);
+    Route::put('wallets', [App\Http\Controllers\Api\WalletController::class, 'updatePin']);
+    Route::get('tips', [App\Http\Controllers\Api\TipController::class, 'index']);
 });
