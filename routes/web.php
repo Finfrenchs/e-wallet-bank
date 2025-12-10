@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RedirectPaymentController;
 use App\Http\Controllers\Admin\TransactionController;
 use App\Http\Controllers\Admin\AuthController;
+use App\Http\Controllers\Admin\DashboardController;
 
 /*
 |--------------------------------------------------------------------------
@@ -32,9 +33,7 @@ Route::group(['prefix' => 'admin'], function () {
 
     //with middleware
     Route::group(['middleware' => 'auth:web'], function () {
-        Route::get('dashboard', function () {
-            return view('dashboard');
-        })->name('admin.dashboard');
+        Route::get('dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
         Route::get('transaction', [TransactionController::class, 'index'])
         ->name('admin.transaction.index');
     });
