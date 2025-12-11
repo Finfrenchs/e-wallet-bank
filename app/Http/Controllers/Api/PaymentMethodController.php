@@ -19,7 +19,16 @@ class PaymentMethodController extends Controller
             ->where('code', '!=', 'lwk')
             ->get()
             ->map(function ($item) {
-                $item->thumbnail = $item->thumbnail ? url('banks/'.$item->thumbnail) : "";
+                $thumbnail = $item->thumbnail;
+
+                // Check if thumbnail is not empty and not already a full URL
+                if ($thumbnail && !filter_var($thumbnail, FILTER_VALIDATE_URL)) {
+                    $item->thumbnail = url('banks/' . $thumbnail);
+                } elseif (!$thumbnail) {
+                    $item->thumbnail = null;
+                }
+                // If already a full URL, don't modify it
+
                 return $item;
             });
 

@@ -22,13 +22,29 @@ class TransactionController extends Controller
             ->paginate($limit);
 
         $transactions->getCollection()->transform(function ($item) {
+            // Fix Payment Method Thumbnail
+            if ($item->paymentMethod) {
+                $thumbnail = $item->paymentMethod->thumbnail;
 
-            $paymentMethodThumbnail = $item->paymentMethod->thumbnail ? url('banks/'.$item->paymentMethod->thumbnail) : "";
-            $item->paymentMethod = clone $item->paymentMethod;
-            $item->paymentMethod->thumbnail = $paymentMethodThumbnail;
+                // Check if thumbnail is not empty and not already a full URL
+                if ($thumbnail && !filter_var($thumbnail, FILTER_VALIDATE_URL)) {
+                    $item->paymentMethod->thumbnail = url('banks/' . $thumbnail);
+                } elseif (!$thumbnail) {
+                    $item->paymentMethod->thumbnail = null;
+                }
+            }
 
-            $transactionType = $item->transactionType;
-            $item->transactionType->thumbnail = $transactionType->thumbnail ? url('transaction-type/'.$transactionType->thumbnail) : "";
+            // Fix Transaction Type Thumbnail
+            if ($item->transactionType) {
+                $thumbnail = $item->transactionType->thumbnail;
+
+                // Check if thumbnail is not empty and not already a full URL
+                if ($thumbnail && !filter_var($thumbnail, FILTER_VALIDATE_URL)) {
+                    $item->transactionType->thumbnail = url('transaction-type/' . $thumbnail);
+                } elseif (!$thumbnail) {
+                    $item->transactionType->thumbnail = null;
+                }
+            }
 
             return $item;
         });
