@@ -1,6 +1,10 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\RedirectPaymentController;
+use App\Http\Controllers\Admin\TransactionController;
+use App\Http\Controllers\Admin\AuthController;
+use App\Http\Controllers\Admin\DashboardController;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,4 +21,20 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('payments_finish', [\App\Http\Controllers\RedirectPaymentController::class, 'finish']);
+Route::get('payments_finish', [RedirectPaymentController::class, 'finish']);
+
+//route group
+Route::group(['prefix' => 'admin'], function () {
+    //login
+    Route::view('login', 'login')->name('admin.auth.index');
+    Route::post('login', [AuthController::class, 'login'])->name('admin.auth.login');
+    //logout
+    Route::get('logout', [AuthController::class, 'logout'])->name('admin.auth.logout');
+
+    //with middleware
+    Route::group(['middleware' => 'auth:web'], function () {
+        Route::get('dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
+        Route::get('transaction', [TransactionController::class, 'index'])
+        ->name('admin.transaction.index');
+    });
+});
